@@ -4,7 +4,6 @@ import android.database.Cursor
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,7 +16,6 @@ import java.lang.StringBuilder
 class MainActivity : AppCompatActivity(), PersonAdapter.PersonAdapterDelegate {
 
     var personList: MutableList <Persons> = mutableListOf()
-
     val contentUrl = "content://com.example.w2fragmentsroom.provider.PersonProvider/persons"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,20 +33,11 @@ class MainActivity : AppCompatActivity(), PersonAdapter.PersonAdapterDelegate {
         allPersons_recyclerview.addItemDecoration(itemDecorator)
     }
 
-
-
-
     override fun onResume() {
         super.onResume()
         getCurrentPersons()
         (allPersons_recyclerview.adapter as PersonAdapter).submitList(personList)
-        Log.d("LOG_THIS","${personList.get(0).id} : ${personList.get(0).person} ${personList.get(0).relation} ")
-    }
-
-    override fun onStop() {
-        super.onStop()
-        personList.clear()
-        (allPersons_recyclerview.adapter as PersonAdapter).submitList(personList)
+        //Log.d("LOG_THIS","${personList.get(0).id} : ${personList.get(0).person} ${personList.get(0).relation} ")
     }
 
     private fun getCurrentPersons() {
@@ -56,6 +45,9 @@ class MainActivity : AppCompatActivity(), PersonAdapter.PersonAdapterDelegate {
         val uri = Uri.parse(contentUrl)
         var cursor: Cursor?
         val stringBuilder = StringBuilder()
+
+        personList.clear()
+        (allPersons_recyclerview.adapter as PersonAdapter).notifyDataSetChanged()
 
         try {
             ErrorLogger.logError(Throwable("Attempting"))
