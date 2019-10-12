@@ -41,7 +41,7 @@ class PersonAdapter(private val personadapterDelegate: PersonAdapterDelegate)
 
 class PersonDiffUtil: DiffUtil.ItemCallback<Persons>(){
     override fun areItemsTheSame(oldItem: Persons, newItem: Persons): Boolean {
-        return oldItem.person == newItem.person
+        return oldItem.id == newItem.id
     }
 
     override fun areContentsTheSame(oldItem: Persons, newItem: Persons): Boolean {
